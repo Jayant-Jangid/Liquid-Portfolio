@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Cpu, Layers, CheckCircle2, Zap, ChevronDown } from 'lucide-react';
 import type { Project } from '../../types/portfolio';
@@ -19,26 +20,32 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project,
         onClose();
       }
     };
+
     if (project) {
       window.addEventListener('keydown', handleKeyDown);
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      // Reset scroll position to top whenever a new project is opened
+
+      // Reset scroll position to top whenever opened
       if (scrollRef.current) {
         scrollRef.current.scrollTop = 0;
       }
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = originalOverflow;
+      };
     }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
-    };
   }, [project, onClose]);
 
   if (!project) return null;
 
-  return (
+  // Use createPortal to mount directly to document.body, completely decoupling
+  // the modal from any page scroll position, parent transforms, or filters.
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-        {/* Backdrop - clicking closes modal */}
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+        {/* Full-screen Backdrop attached directly to viewport */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -47,16 +54,16 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project,
             sound.playHover(380);
             onClose();
           }}
-          className="absolute inset-0 bg-[#030308]/90 backdrop-blur-xl"
+          className="fixed inset-0 bg-[#030308]/90 backdrop-blur-xl"
         />
 
-        {/* Modal Window Dialog */}
+        {/* Modal Window Dialog - guaranteed to fit and center in current viewport */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-          className="relative w-full max-w-4xl max-h-[90vh] bg-[#0c0c16] border border-white/20 rounded-3xl shadow-2xl flex flex-col overflow-hidden z-10 text-slate-200"
+          className="relative w-full max-w-4xl max-h-[85vh] sm:max-h-[88vh] bg-[#0c0c16] border border-white/20 rounded-3xl shadow-2xl flex flex-col overflow-hidden z-10 text-slate-200"
         >
           {/* Pinned Sticky Close Button */}
           <button
@@ -64,7 +71,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project,
               sound.playHover(380);
               onClose();
             }}
-            className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white hover:bg-white/25 hover:border-purple-400/50 transition-all hover:scale-105 active:scale-95 shadow-2xl cursor-pointer"
+            className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/80 backdrop-blur-md border border-white/25 text-white hover:bg-white/25 hover:border-purple-400/60 transition-all hover:scale-105 active:scale-95 shadow-2xl cursor-pointer"
             aria-label="Close modal (Escape)"
           >
             <X className="w-5 h-5" />
@@ -80,7 +87,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project,
             }}
           >
             {/* Hero Image Header */}
-            <div className="relative h-60 sm:h-80 w-full overflow-hidden bg-slate-950 shrink-0">
+            <div className="relative h-56 sm:h-72 w-full overflow-hidden bg-slate-950 shrink-0">
               <img
                 src={project.image}
                 alt={project.title}
@@ -227,6 +234,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ project,
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

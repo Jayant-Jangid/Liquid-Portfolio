@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import {
   Terminal,
@@ -138,72 +139,78 @@ export const AboutPage: React.FC = () => {
   return (
     <div className="min-h-screen pt-32 pb-24 px-4 sm:px-6 max-w-6xl mx-auto">
       {/* Resume Modal */}
-      {showResumeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl overflow-hidden">
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0c0c16] border border-white/15 rounded-3xl p-6 sm:p-8 space-y-6 text-slate-200">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div>
-                <h3 className="font-syne text-2xl font-bold text-white">Curriculum Vitae</h3>
-                <p className="text-xs font-mono text-cyan-400">STAFF_ARCHITECT // AURA_VANCE.PDF</p>
+      {showResumeModal &&
+        createPortal(
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-hidden">
+            <div
+              className="fixed inset-0 bg-black/85 backdrop-blur-xl"
+              onClick={() => setShowResumeModal(false)}
+            />
+            <div className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto bg-[#0c0c16] border border-white/15 rounded-3xl p-6 sm:p-8 space-y-6 text-slate-200 z-10">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <h3 className="font-syne text-2xl font-bold text-white">Curriculum Vitae</h3>
+                  <p className="text-xs font-mono text-cyan-400">STAFF_ARCHITECT // AURA_VANCE.PDF</p>
+                </div>
+                <button
+                  onClick={() => setShowResumeModal(false)}
+                  className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20"
+                >
+                  ✕
+                </button>
               </div>
-              <button
-                onClick={() => setShowResumeModal(false)}
-                className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20"
-              >
-                ✕
-              </button>
-            </div>
 
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3 text-xs font-mono">
-              <div className="flex justify-between text-slate-400">
-                <span>IDENTITY:</span>
-                <span className="text-white font-bold">{PERSONAL_INFO.name}</span>
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3 text-xs font-mono">
+                <div className="flex justify-between text-slate-400">
+                  <span>IDENTITY:</span>
+                  <span className="text-white font-bold">{PERSONAL_INFO.name}</span>
+                </div>
+                <div className="flex justify-between text-slate-400">
+                  <span>CURRENT ROLE:</span>
+                  <span className="text-cyan-400">Staff Full-Stack & Systems Architect</span>
+                </div>
+                <div className="flex justify-between text-slate-400">
+                  <span>TOTAL EXPERIENCE:</span>
+                  <span className="text-purple-400">9+ Years Enterprise Production</span>
+                </div>
+                <div className="flex justify-between text-slate-400">
+                  <span>LOCATION:</span>
+                  <span className="text-white">{PERSONAL_INFO.location}</span>
+                </div>
               </div>
-              <div className="flex justify-between text-slate-400">
-                <span>CURRENT ROLE:</span>
-                <span className="text-cyan-400">Staff Full-Stack & Systems Architect</span>
-              </div>
-              <div className="flex justify-between text-slate-400">
-                <span>TOTAL EXPERIENCE:</span>
-                <span className="text-purple-400">9+ Years Enterprise Production</span>
-              </div>
-              <div className="flex justify-between text-slate-400">
-                <span>LOCATION:</span>
-                <span className="text-white">{PERSONAL_INFO.location}</span>
+
+              <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                Full architectural dossier includes detailed patents, Kafka clustering blueprints, WebGPU shader papers, and verified performance benchmarks across 14M+ active creators.
+              </p>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  onClick={() => {
+                    sound.playHover(420);
+                    setShowResumeModal(false);
+                  }}
+                  className="px-5 py-2 rounded-xl glass-panel text-xs font-mono text-slate-400 hover:text-white"
+                >
+                  CLOSE
+                </button>
+                <a
+                  href="#download"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sound.playSuccessCelebration();
+                    alert("Dossier transmission simulated! In production, this delivers Aura Vance's high-res PDF dossier.");
+                    setShowResumeModal(false);
+                  }}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-mono font-medium text-white bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 shadow-lg"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>DOWNLOAD COMPLETE DOSSIER</span>
+                </a>
               </div>
             </div>
-
-            <p className="text-xs text-slate-300 font-sans leading-relaxed">
-              Full architectural dossier includes detailed patents, Kafka clustering blueprints, WebGPU shader papers, and verified performance benchmarks across 14M+ active creators.
-            </p>
-
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                onClick={() => {
-                  sound.playHover(420);
-                  setShowResumeModal(false);
-                }}
-                className="px-5 py-2 rounded-xl glass-panel text-xs font-mono text-slate-400 hover:text-white"
-              >
-                CLOSE
-              </button>
-              <a
-                href="#download"
-                onClick={(e) => {
-                  e.preventDefault();
-                  sound.playSuccessCelebration();
-                  alert("Dossier transmission simulated! In production, this delivers Aura Vance's high-res PDF dossier.");
-                  setShowResumeModal(false);
-                }}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-mono font-medium text-white bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 shadow-lg"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>DOWNLOAD COMPLETE DOSSIER</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
 
       {/* Hero Bio Section */}
       <div className="grid lg:grid-cols-12 gap-12 items-center mb-24">
