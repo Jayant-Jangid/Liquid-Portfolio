@@ -34,16 +34,16 @@ export const HomePage: React.FC = () => {
       {/* Hero Section */}
       <section className="relative min-h-[85vh] flex flex-col justify-center items-center px-4 sm:px-6 max-w-6xl mx-auto text-center">
         {/* Fullscreen-height interactive Liquid Shader Background */}
-        <div className="absolute inset-0 -z-10 rounded-3xl overflow-hidden opacity-85 mask-gradient">
+        <div className="absolute inset-0 -z-10 rounded-3xl overflow-hidden">
           <LiquidShaderCanvas
             preset="iridescent"
-            viscosity={0.9}
-            speed={0.9}
-            turbulence={1.4}
+            viscosity={0.8}
+            speed={1.0}
+            turbulence={1.5}
             interactive={true}
           />
-          {/* Subtle noise and gradient overlay to give deep contrast to text */}
-          <div className="absolute inset-0 bg-radial from-transparent via-[#050508]/60 to-[#050508] pointer-events-none" />
+          {/* Subtle gradient so text is crisp and luminous while liquid colors shine brightly */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/30 via-transparent to-[#050508]/80 pointer-events-none" />
         </div>
 
         {/* Live availability pill */}

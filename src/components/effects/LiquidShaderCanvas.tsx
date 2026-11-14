@@ -125,19 +125,19 @@ export const LiquidShaderCanvas: React.FC<LiquidShaderCanvasProps> = ({
         float field = fluidHeight * 0.5 + 0.5;
 
         if (u_preset == 0) {
-          // Ethereal Iridescent & Fluid Prism (Soap bubble / pearl / holographic oil-slick)
-          vec3 a = vec3(0.48, 0.45, 0.62);
-          vec3 b = vec3(0.52, 0.48, 0.55);
+          // Ethereal Iridescent & Fluid Prism (Vibrant holographic prism)
+          vec3 a = vec3(0.52, 0.48, 0.62);
+          vec3 b = vec3(0.48, 0.52, 0.48);
           vec3 c = vec3(1.0, 1.0, 1.0);
           vec3 d = vec3(0.00, 0.33, 0.67);
           
-          float r = palette(field + rShift, a, b, c, d).r;
-          float g = palette(field + gShift, a, b, c, d + vec3(0.1)).g;
-          float bl = palette(field + bShift, a, b, c, d + vec3(0.2)).b;
+          float r = palette(field * 1.6 + rShift * 2.5, a, b, c, d).r;
+          float g = palette(field * 1.6 + gShift * 2.5, a, b, c, d + vec3(0.08)).g;
+          float bl = palette(field * 1.6 + bShift * 2.5, a, b, c, d + vec3(0.18)).b;
           color = vec3(r, g, bl);
-          // Dark cosmic base modulation for luxury feel
-          color = mix(vec3(0.02, 0.02, 0.05), color, smoothstep(0.15, 0.9, field));
-          color += vec3(0.12, 0.08, 0.2) * (1.0 - distToMouse);
+          // Rich cosmic contrast while preserving vivid iridescent luminescence
+          color = mix(vec3(0.04, 0.03, 0.09), color, 0.72 + fluidHeight * 0.35);
+          color += vec3(0.18, 0.12, 0.3) * mouseImpulse;
         } else if (u_preset == 1) {
           // Cyber Neon (Cyan & Electric Violet)
           vec3 col1 = vec3(0.03, 0.72, 0.88); // Cyan
@@ -259,6 +259,12 @@ export const LiquidShaderCanvas: React.FC<LiquidShaderCanvasProps> = ({
       canvas.width = Math.max(rect.width * dpr, 200);
       canvas.height = Math.max(rect.height * dpr, 200);
       gl.viewport(0, 0, canvas.width, canvas.height);
+      if (targetMouseX === 0 && targetMouseY === 0) {
+        targetMouseX = canvas.width * 0.5;
+        targetMouseY = canvas.height * 0.5;
+        mouseX = targetMouseX;
+        mouseY = targetMouseY;
+      }
     };
 
     handleResize();
