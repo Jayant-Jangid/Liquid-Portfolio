@@ -53,7 +53,6 @@ export const HomePage: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-white/15 text-xs font-mono text-slate-300 shadow-xl mb-6 backdrop-blur-md"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
           <span className="text-emerald-400 font-semibold">STAFF & LEAD ARCHITECTURE</span>
           <span className="text-slate-500">•</span>
           <span className="text-slate-300">OPEN FOR ENGAGEMENTS</span>
