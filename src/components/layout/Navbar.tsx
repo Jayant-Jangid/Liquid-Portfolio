@@ -40,10 +40,6 @@ export const Navbar: React.FC = () => {
           <span className="font-syne font-bold tracking-tight text-sm text-white group-hover:text-iridescent transition-all">
             AURA VANCE
           </span>
-          <span className="hidden lg:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            AVAILABLE
-          </span>
         </NavLink>
 
         {/* Desktop Navigation Links */}
