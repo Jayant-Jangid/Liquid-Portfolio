@@ -139,8 +139,8 @@ export const AboutPage: React.FC = () => {
     <div className="min-h-screen pt-32 pb-24 px-4 sm:px-6 max-w-6xl mx-auto">
       {/* Resume Modal */}
       {showResumeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl">
-          <div className="relative w-full max-w-2xl bg-[#0c0c16] border border-white/15 rounded-3xl p-8 space-y-6 text-slate-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl overflow-hidden">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0c0c16] border border-white/15 rounded-3xl p-6 sm:p-8 space-y-6 text-slate-200">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
                 <h3 className="font-syne text-2xl font-bold text-white">Curriculum Vitae</h3>
