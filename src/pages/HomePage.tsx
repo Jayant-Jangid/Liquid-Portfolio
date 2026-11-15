@@ -31,20 +31,22 @@ export const HomePage: React.FC = () => {
         onClose={() => setSelectedProject(null)}
       />
 
+      {/* Full Hero Liquid Shader Background Canvas */}
+      <div className="absolute top-0 left-0 right-0 h-[100vh] z-0 overflow-hidden pointer-events-none">
+        <LiquidShaderCanvas
+          preset="iridescent"
+          viscosity={0.75}
+          speed={1.0}
+          turbulence={1.4}
+          interactive={true}
+          className="w-full h-full opacity-90"
+        />
+        {/* Smooth soft fade at bottom into content */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/20 via-transparent to-[#050508] pointer-events-none" />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex flex-col justify-center items-center px-4 sm:px-6 max-w-6xl mx-auto text-center">
-        {/* Fullscreen-height interactive Liquid Shader Background */}
-        <div className="absolute inset-0 -z-10 rounded-3xl overflow-hidden">
-          <LiquidShaderCanvas
-            preset="iridescent"
-            viscosity={0.8}
-            speed={1.0}
-            turbulence={1.5}
-            interactive={true}
-          />
-          {/* Subtle gradient so text is crisp and luminous while liquid colors shine brightly */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/30 via-transparent to-[#050508]/80 pointer-events-none" />
-        </div>
+      <section className="relative z-10 min-h-[85vh] flex flex-col justify-center items-center px-4 sm:px-6 max-w-6xl mx-auto text-center">
 
         {/* Live availability pill */}
         <motion.div
